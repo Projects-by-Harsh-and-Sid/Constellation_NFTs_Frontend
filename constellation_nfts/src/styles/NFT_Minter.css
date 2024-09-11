@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bangers&family=Bungee+Shade&family=Cabin+Sketch&family=Cinzel&family=Fredoka+One&family=Lobster&family=Monoton&family=Orbitron&family=Pacifico&family=Permanent+Marker&family=Press+Start+2P&family=Righteous&family=Rubik+Mono+One&display=swap');
+body{
+  margin: 0 !important;
+}
+
+.nft-minter {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.arrow-down {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 0.5rem;
+  border-top: 4px solid white;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 100%;
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.dropdown-menu button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  opacity: 0.8;
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: opacity 0.3s, background-color 0.3s;
+}
+
+.button.primary {
+  background: linear-gradient(90deg, #8A2BE2, #FF69B4);
+  color: white;
+}
+
+.button.primary:hover {
+  opacity: 0.9;
+}
+
+.button.secondary {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+.button.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .button-container {
+    flex-direction: column;
+  }
+}
+.animated-word-container {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 3.5ch; /* Adjust this value based on the longest animated word */
+  margin-right: 50px;
+  height: 1.2em;
+}
+.animated-text {
+  display: inline-block;
+  animation: changeFont 8s infinite;
+}
+
+@keyframes changeFont {
+  0%, 100% {
+    font-family: 'Alfa Slab One', cursive;
+    font-style: normal;
+    background: linear-gradient(to right, #00FFA3, #DC1FFF);
+    /* -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; */
+  }
+  6.25% {
+    font-family: 'Bangers', cursive;
+    font-style: italic;
+    background: linear-gradient(to right, #03E1FF, #DC1FFF);
+  }
+  12.5% {
+    font-family: 'Bungee Shade', cursive;
+    font-style: normal;
+    background: linear-gradient(to right, #DC1FFF, #00FFA3);
+  }
+  18.75% {
+    font-family: 'Cabin Sketch', cursive;
+    font-style: italic;
+    background: linear-gradient(to right, #00FFA3, #03E1FF);
+  }
+  25% {
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    background: linear-gradient(to right, #03E1FF, #DC1FFF);
+  }
+  31.25% {
+    font-family: 'Fredoka One', cursive;
+    font-style: italic;
+    background: linear-gradient(to right, #DC1FFF, #00FFA3);
+  }
+  37.5% {
+    font-family: 'Lobster', cursive;
+    font-style: normal;
+    background: linear-gradient(to right, #00FFA3, #03E1FF);
+  }
+  43.75% {
+    font-family: 'Monoton', cursive;
+    font-style: italic;
+    background: linear-gradient(to right, #03E1FF, #DC1FFF);
+  }
+  50% {
+    font-family: 'Orbitron', sans-serif;
+    font-style: normal;
+    background: linear-gradient(to right, #DC1FFF, #00FFA3);
+  }
+  56.25% {
+    font-family: 'Pacifico', cursive;
+    font-style: italic;
+    background: linear-gradient(to right, #00FFA3, #03E1FF);
+  }
+  62.5% {
+    font-family: 'Permanent Marker', cursive;
+    font-style: normal;
+    background: linear-gradient(to right, #03E1FF, #DC1FFF);
+  }
+  68.75% {
+    font-family: 'Press Start 2P', cursive;
+    font-style: italic;
+    background: linear-gradient(to right, #DC1FFF, #00FFA3);
+  }
+  75% {
+    font-family: 'Righteous', cursive;
+    font-style: normal;
+    background: linear-gradient(to right, #00FFA3, #03E1FF);
+  }
+  81.25% {
+    font-family: 'Rubik Mono One', sans-serif;
+    font-style: italic;
+    background: linear-gradient(to right, #03E1FF, #DC1FFF);
+  }
+  87.5% {
+    font-family: 'Times New Roman', serif;
+    font-style: normal;
+    background: linear-gradient(to right, #DC1FFF, #00FFA3);
+  }
+  93.75% {
+    font-family: 'Courier New', monospace;
+    font-style: italic;
+    background: linear-gradient(to right, #00FFA3, #03E1FF);
+  }
+}
+
+
