@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Paperclip, Upload, X, Image } from 'lucide-react';
-import { useAppContext } from './AppContext';
+// import { useAppContext } from './AppContext';
 import './styles/CreateNFT.css';
 import { Alert, Snackbar } from '@mui/material';
 
@@ -14,10 +14,12 @@ const CreateNFT = () => {
   const [nftImagePreview, setNftImagePreview] = useState(null);
   const [nftImage, setNftImage] = useState(null);
   const [pdfFiles, setPdfFiles] = useState([]);
-  const { actor, authClient } = useAppContext();
+  // const { actor, authClient } = useAppContext();
   const fileInputRef = useRef(null);
   const imageInputRef = useRef(null);
   const [nftCreated, setNftCreated] = useState(false);
+
+  console.log('Inside CreateNFT.jsx');
 
   const handleNameChange = (event) => setName(event.target.value);
   const handleDescriptionChange = (event) => setDescription(event.target.value);
@@ -53,7 +55,7 @@ const CreateNFT = () => {
   };
 
   const uploadNFT = async () => {
-    if (!nftImage || pdfFiles.length === 0 || !name || !description || !selectedModel || !actor) {
+    if (!nftImage || pdfFiles.length === 0 || !name || !description || !selectedModel) {
       alert('Please fill in all fields and upload required files');
       return;
     }
@@ -62,7 +64,7 @@ const CreateNFT = () => {
       const pdfContents = await Promise.all(pdfFiles.map(file => file.arrayBuffer()));
       const pdfContentArrays = pdfContents.map(buffer => Array.from(new Uint8Array(buffer)));
 
-      const identity = await authClient.getIdentity();
+      const identity = '12345456'
       const userPrincipal = identity.getPrincipal();
 
       const nftImageArray = Array.from(new Uint8Array(await nftImage.arrayBuffer()));
@@ -76,10 +78,10 @@ const CreateNFT = () => {
         nft_image: nftImageArray
       };
 
-      // TODO: 
-      const tokenId = await actor.process_pdfs_and_mint_nft(input);// rust 
-      setNftCreated(true);
-      console.log('NFT minted with token ID:', tokenId);
+      // TODO: react -> flask -> blockchain
+      // const tokenId = await actor.process_pdfs_and_mint_nft(input);// rust 
+      // setNftCreated(true);
+      // console.log('NFT minted with token ID:', tokenId);
       // alert(`NFT minted with token ID: ${tokenId}`);
     } catch (error) {
       console.error('Error processing PDFs and minting NFT:', error);

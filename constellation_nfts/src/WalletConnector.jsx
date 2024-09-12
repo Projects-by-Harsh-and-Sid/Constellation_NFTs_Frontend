@@ -1,88 +1,86 @@
-import React, { useState, useEffect } from 'react';
-
-// Assuming window.stargazer is already typed in a TypeScript declaration file elsewhere in your project.
+import React, { useState } from 'react';
+import './styles/stargazer.css';
+import { useNavigate } from 'react-router-dom';
 
 const CONSTELLATION_NETWORK = {
   name: 'Constellation',
-  chainId: 1001, // Replace with the actual chain ID for Constellation
+  chainId: 1001,
 };
 
 const StargazerWeb3Connector = () => {
   const [account, setAccount] = useState(null);
   const [stargazerProvider, setStargazerProvider] = useState(null);
   const [error, setError] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const initProvider = async () => {
-      if (window.stargazer) {
-        console.log(`Stargazer version ${window.stargazer.version} detected`);
-        try {
-          const provider = window.stargazer.getProvider("constellation");
-          console.log("Stargazer provider initialized:", provider);
-          setStargazerProvider(provider);
-
-          if (provider.activated) {
-            try {
-              const accounts = await provider.request({ method: "dag_requestAccounts", params: [] });
-              if (accounts && accounts.length > 0) {
-                setAccount(accounts[0]);
-              }
-            } catch (accountError) {
-              console.error("Error fetching accounts:", accountError);
-            }
-          }
-        } catch (error) {
-          console.error("Error initializing provider:", error);
-          setError("Failed to initialize Stargazer provider. Make sure the Stargazer extension is installed and the network is accessible.");
-        }
-      } else {
-        setError("Stargazer not detected. Please install the Stargazer extension and refresh the page.");
-      }
-    };
-
-    initProvider();
-  }, []);
-
-  const connectWallet = async () => {
-    if (stargazerProvider) {
+  const initializeAndConnect = async () => {
+    if (window.stargazer) {
       try {
-        const accounts = await stargazerProvider.request({ method: "dag_requestAccounts", params: [] });
+        console.log(`Stargazer version ${window.stargazer.version} detected`);
+        const provider = window.stargazer.getProvider("constellation");
+        console.log("Stargazer provider initialized:", provider);
+        setStargazerProvider(provider);
+
+        const accounts = await provider.request({ method: "dag_requestAccounts", params: [] });
         if (accounts && accounts.length > 0) {
           setAccount(accounts[0]);
         }
       } catch (error) {
-        console.error("Error connecting to wallet:", error);
-        setError("Failed to connect to wallet. Please try again.");
+        console.error("Error initializing provider or connecting to wallet:", error);
+        setError("Failed to connect to Stargazer. Make sure the extension is installed and try again.");
       }
     } else {
-      setError("Provider not initialized. Please refresh the page and try again.");
+      setError("Stargazer not detected. Please install the Stargazer extension and refresh the page.");
     }
   };
 
   const disconnectWallet = () => {
     setAccount(null);
+    setStargazerProvider(null);
+    setIsDropdownOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="error-message">{error}</div>;
   }
 
-  if (!stargazerProvider) {
-    return <div>Loading provider information...</div>;
-  }
+  const handleCreate = () => navigate('/create_nft');
 
   return (
-    <div>
-      <p>Connected to network: {CONSTELLATION_NETWORK.name} (Chain ID: {CONSTELLATION_NETWORK.chainId})</p>
-
-      {account ? (
-        <div>
-          <p>Connected with account: {account}</p>
-          <button onClick={disconnectWallet}>Disconnect</button>
+    <div className="app-container">
+      <header className="header">
+        <h1>Stargazer Web3 Connector</h1>
+        <div className="dropdown">
+          {account ? (
+            <div>
+              <button onClick={toggleDropdown} className="wallet-button">
+                {account.slice(0, 6)}...{account.slice(-4)}
+                <span style={{ marginLeft: '0.5rem' }}>▼</span>
+              </button>
+              {isDropdownOpen && (
+                <div className="dropdown-menu">
+                  <button onClick={handleCreate} className="disconnect-button">
+                    Create
+                  </button>
+                  <a href="#" className="dropdown-item">Collections</a>
+                  <button onClick={disconnectWallet} className="disconnect-button">
+                    Disconnect
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button onClick={initializeAndConnect} className="connect-button">
+              Connect to Stargazer
+            </button>
+          )}
         </div>
-      ) : (
-        <button onClick={connectWallet}>Connect to Stargazer</button>
-      )}
+      </header>
     </div>
   );
 };
