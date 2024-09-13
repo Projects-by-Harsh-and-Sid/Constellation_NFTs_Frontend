@@ -83,14 +83,6 @@ async function mintCollection(collectionName) {
 
 
 
-
-
-
-
-
-
-
-
 async function mintNftID(collectionName) {
 
 
@@ -114,18 +106,5 @@ async function mintNftID(collectionName) {
         console.log('Waiting for collection to populate over the cluster');
         await new Promise(resolve => setTimeout(resolve, 30000));
       
-      //   console.log(`Minting ${nftCount} NFTs`);
-      //   for (let i = 0; i < nftCount; i++) {
-      //     const serial = String(i).padStart(4, '0');
-      //     const nftData = {
-      //       id: i,
-      //       uri: `https://your-nft-assets-url.com/${serial}.png`,
-      //       name: `${collectionName} - ${serial}`,
-      //       description: `${collectionName} - ${serial} - desc`,
-      //       metadata: {},
-      //       AI_data: 'Cool AI data'
-      //     };
-      
-          // await mintNFT(collectionId, nftData, dagProvider, userAddress);
     }
       
