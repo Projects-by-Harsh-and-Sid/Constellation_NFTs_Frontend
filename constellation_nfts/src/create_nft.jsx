@@ -162,7 +162,7 @@ const CreateNFT = () => {
         </div>
 
         <div className="form-group">
-          <label className='select-label'>Select Model</label>
+          <label className='select-label'>Select Custom Model</label>
           <select 
             value={selectedModel} 
             onChange={handleModelChange}

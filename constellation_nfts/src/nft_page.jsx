@@ -1,9 +1,10 @@
 // NFTCollectionDetailPage.js
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,useLocation } from 'react-router-dom';
 import styles from './styles/nft_page.module.css';
 import defaultImage from './temp.jpg'; // Replace with the actual path to your default image
 import { Dialog, DialogContent, CircularProgress } from '@mui/material'; // Import necessary components
+// import nftData from './nf.json'; // Import the NFT data
 
 const nftData = [
     {
@@ -16,7 +17,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 1,
@@ -28,7 +30,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 2,
@@ -40,7 +43,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 3,
@@ -52,7 +56,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 4,
@@ -64,7 +69,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 4,
@@ -76,7 +82,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     }
 ]
 const NFTCollectionDetailPage = () => {
@@ -89,6 +96,9 @@ const NFTCollectionDetailPage = () => {
   const [apiEndpoint, setApiEndpoint] = useState('');
   const [isApiLoading, setIsApiLoading] = useState(false);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const collectionName = location.state?.name;
 
   useEffect(() => {
     // In real use, fetch data from an API based on collectionId
@@ -182,7 +192,7 @@ const NFTCollectionDetailPage = () => {
       </div>
 
       <div className={styles['nft-page-content']}>
-        <h1 className={styles['nft-page-title']}>NFTs in Collection</h1>
+        <h1 className={styles['nft-page-title']}>NFTs in {collectionName}</h1>
         <div className={styles['nft-grid']}>
           <div className={`${styles['nft-card']} ${styles['create-nft']}`} onClick={handleCreateNFT}>
             <div className={styles['create-nft-content']}>
@@ -227,7 +237,7 @@ const NFTCollectionDetailPage = () => {
                   className={`${styles['tag']} ${styles['model-tag']}`} 
                   title={selectedNft.AI_data || 'Unknown AI data'}
                 >
-                  AI Data: {selectedNft.AI_data || 'Unknown AI data'}
+                  Model: {selectedNft.model || 'Unknown AI data'}
                 </div>
                 <div
                   className={`${styles['tag']} ${styles['owner-tag']}`}

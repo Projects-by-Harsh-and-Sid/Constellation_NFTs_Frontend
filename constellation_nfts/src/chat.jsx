@@ -65,8 +65,8 @@ const NFTImage = ({ nftImage, name }) => {
 
 
 const Chat = () => {
-  const { actor, authClient } = useAppContext();
-  const { nftId } = useParams(); // Get nftId from URL
+  // const { actor, authClient } = useAppContext();
+  const { collectionId } = useParams(); // Get nftId from URL
   const navigate = useNavigate();
   const [chatHistory, setChatHistory] = useState([]);
   const [userInput, setUserInput] = useState('');
@@ -80,56 +80,57 @@ const Chat = () => {
   const chatEndRef = useRef(null);
 
   useEffect(() => {
-    if (nftId) {
-      initializeChat(nftId);
-      fetchNFTDetails(nftId);
+    if (collectionId) {
+      // initializeChat(nftId);
+      // fetchNFTDetails(nftId);
+      console.log("Collection ID:", collectionId);
     } else {
       navigate('/collections'); // Redirect to collections if no NFT ID is provided
     }
-  }, [nftId, actor]);
+  }, [collectionId]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory]);
 
 
-  const initializeChat = async (id) => {
-    setIsInitializing(true);
-    try {
-      const response = await actor.chat(BigInt(id));
-      if ('Ok' in response) {
-        const { jwt_token, url } = response.Ok;
-        setJwtToken(jwt_token);
-        setChatUrl(url);
-        console.log("JWT Token:", jwt_token);
-        console.log("Chat URL:", url);
-      } else {
-        console.error("Unexpected response format:", response);
-        // Handle error, maybe show a message to the user
-      }
-    } catch (error) {
-      console.error('Error initiating chat:', error);
-      // Handle error, maybe show a message to the user
-    }
-    finally{
-      setIsInitializing(false);
-    }
-  };
+  // const initializeChat = async (id) => {
+  //   setIsInitializing(true);
+  //   try {
+  //     const response = await actor.chat(BigInt(id)); //get the jwt token here and chat url
+  //     if ('Ok' in response) {
+  //       const { jwt_token, url } = response.Ok;
+  //       setJwtToken(jwt_token);
+  //       setChatUrl(url);
+  //       console.log("JWT Token:", jwt_token);
+  //       console.log("Chat URL:", url);
+  //     } else {
+  //       console.error("Unexpected response format:", response);
+  //       // Handle error, maybe show a message to the user
+  //     }
+  //   } catch (error) {
+  //     console.error('Error initiating chat:', error);
+  //     // Handle error, maybe show a message to the user
+  //   }
+  //   finally{
+  //     setIsInitializing(false);
+  //   }
+  // };
 
   const toggleModelFeatures = () => {
     setIsModelFeaturesOpen(!isModelFeaturesOpen);
   };
 
-  const fetchNFTDetails = async (id) => {
-    try {
-      const content = await actor.get_token_content(BigInt(id));
-      if (Array.isArray(content) && content.length > 0) {
-        setNftDetails(content[0]);
-      }
-    } catch (error) {
-      console.error('Error fetching NFT details:', error);
-    }
-  };
+  // const fetchNFTDetails = async (id) => {
+  //   try {
+  //     const content = await actor.get_token_content(BigInt(id));
+  //     if (Array.isArray(content) && content.length > 0) {
+  //       setNftDetails(content[0]);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching NFT details:', error);
+  //   }
+  // };
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -276,7 +277,7 @@ const Chat = () => {
   </div>
     <div className="chat-container">
       
-      <h2 className="chat-header">Chat with NFT #{nftId}</h2>
+      <h2 className="chat-header">Chat with NFT #{collectionId}</h2>
       <div className="chat-messages">
       <div className="chat-messages">
           {chatHistory.map((message, index) => (
