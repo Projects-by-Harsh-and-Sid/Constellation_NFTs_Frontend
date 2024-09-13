@@ -331,3 +331,53 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
+
+.testApiButton {
+  background: linear-gradient(90deg, #FFA500, #FF4500) !important;
+}
+
+.testApiDialogPaper {
+  background-color: #121212 !important;
+  color: white;
+  border-radius: 10px !important;
+}
+
+.testApiDialogContent {
+  padding: 24px;
+  width: 90vw;
+  max-width: 90%;
+  height: auto;
+  /* height: 80vh; */
+  background-color: #121212;
+  color: white;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.testApiDialogTitle {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.testApiLoadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.testApiResultPre {
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  padding: 15px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: calc(80vh - 100px);
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}

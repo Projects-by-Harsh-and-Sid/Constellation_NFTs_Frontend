@@ -27,6 +27,18 @@ async function mintNFTData(collectionId, nftData) {
     const dagAccounts       = await dagProvider.request({ method: 'dag_accounts', params: [] });
     const userAddress       = dagAccounts[0];
     
+
+    // case class MintNFT(
+    //   owner       : Address,
+    //   collectionId: String,
+    //   nftId       : Long,
+    //   uri         : String,
+    //   name        : String,
+    //   description : String,
+    //   metadata    : Map[String, String],
+    //   AI_data              : String,
+    // ) extends NFTUpdate
+
     const actionMessage = {
       MintNFT: {
         owner: userAddress,

@@ -24,6 +24,8 @@ function App() {
             <Route path="/" element={< StargazerWeb3Connector/>} />
             <Route path="/view_collection" element={< ViewCollection/>} />
             <Route path="/collections/:collectionId" element={<NFTCollectionDetailPage />} />
+            <Route path="/show_nft" element={<NFTCollectionDetailPage />} />
+
             <Route path="/create_nft/:collectionId" element={<CreateNFT />} />
             {/* <Route path="/create_nft/:collectionId" element={<CreateNFT />} /> */}
 

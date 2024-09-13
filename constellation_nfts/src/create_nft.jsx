@@ -1,10 +1,17 @@
 // CreateNFT.js
-import React, { useState, useRef } from 'react';
+import { Image, Paperclip, Upload, X } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Paperclip, Upload, X, Image } from 'lucide-react';
 // import { useAppContext } from './AppContext';
-import './styles/CreateNFT.css';
 import { Alert, Snackbar } from '@mui/material';
+import './styles/CreateNFT.css';
+import { useAppContext } from './AppContext';
+
+import { get_all_collection_data, get_collection_data } from './helper_functions/get_chain_data';
+import { uploadImage } from './helper_functions/image_uploader';
+import { convertPdfToText } from './helper_functions/pdf_to_text';
+import { mintNFTData, nft_data } from './metagraph_scripts/mint_functions';
+
 
 const CreateNFT = () => {
   const navigate = useNavigate();
@@ -18,8 +25,44 @@ const CreateNFT = () => {
   const fileInputRef = useRef(null);
   const imageInputRef = useRef(null);
   const [nftCreated, setNftCreated] = useState(false);
-
+  const [collectionsid, setCollectionsId] = useState({});
   console.log('Inside CreateNFT.jsx');
+
+  const { address, provider } = useAppContext();
+
+  console.log('address:', address);
+  console.log('provider:', provider);
+
+
+  useEffect(() => {
+    console.log("Inside useEffect of CreateNFT.jsx");
+    
+    // Function to fetch collection data
+    const fetchCollectionData = async () => {
+      try {
+        const collection_data = await get_all_collection_data();
+        console.log("printing collection data");  
+        console.log(collection_data);
+
+        const collection_data_map = {};
+
+        for (const item of collection_data) {
+          collection_data_map[item.name] = item.id;
+          console.log(item.name);
+        }
+
+        setCollectionsId(collection_data_map);
+      } catch (error) {
+        console.error("Error fetching collection data:", error);
+      }
+    };
+
+    // Call the function
+    fetchCollectionData();
+
+  }, []); // Empty dependency array means this runs once on mount
+
+
 
   const handleNameChange = (event) => setName(event.target.value);
   const handleDescriptionChange = (event) => setDescription(event.target.value);
@@ -39,6 +82,8 @@ const CreateNFT = () => {
     }
   };
 
+
+
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     const validFiles = files.filter(file => file.type === 'application/pdf');
@@ -55,34 +100,76 @@ const CreateNFT = () => {
   };
 
   const uploadNFT = async () => {
+
+
     if (!nftImage || pdfFiles.length === 0 || !name || !description || !selectedModel) {
       alert('Please fill in all fields and upload required files');
       return;
     }
 
     try {
-      const pdfContents = await Promise.all(pdfFiles.map(file => file.arrayBuffer()));
-      const pdfContentArrays = pdfContents.map(buffer => Array.from(new Uint8Array(buffer)));
 
-      const identity = '12345456'
-      const userPrincipal = identity.getPrincipal();
+      const textResults = await Promise.all(pdfFiles.map(file => convertPdfToText(file)));
 
       const nftImageArray = Array.from(new Uint8Array(await nftImage.arrayBuffer()));
 
-      const input = {
-        pdf_contents: pdfContentArrays,
-        name: name,
-        description: description,
-        selected_model: selectedModel,
-        owner_principal: userPrincipal,
-        nft_image: nftImageArray
-      };
+      const result_image = await uploadImage(nftImageArray);
+
+      
+
+      // get the collection data from collections id
+      
+      console.log("printing selectedModel");
+      console.log(selectedModel);
+
+      var collection_data =  await get_collection_data(selectedModel);
+
+
+      // collection_data = collection_data[0];
+
+      // for (var i = 0; i < collectionsid.length; i++) {
+      //   if (collectionsid[i].id == selectedModel) {
+      //     collection_data = collectionsid[i];
+      //     break;
+      //   }
+      // }
+
+      console.log("printing collection data2");
+      console.log(collection_data);
+
+      // convert string to number
+      var numberOfNFTs = parseInt(collection_data.numberOfNFTs) + 1;
+      
+      const mint_nft_data = nft_data(
+        numberOfNFTs,
+        result_image.url,
+        name,
+        description,
+        {},
+      // "test"
+        textResults[0]["text"]
+      );
+
+      await mintNFTData(selectedModel, mint_nft_data);
+
+      setNftCreated(true);
+
+      setTimeout(() => {
+
+        navigate(`/collection/${selectedModel}`);
+
+      }, 3000);
+
 
       // TODO: react -> flask -> blockchain
       // const tokenId = await actor.process_pdfs_and_mint_nft(input);// rust 
       // setNftCreated(true);
       // console.log('NFT minted with token ID:', tokenId);
       // alert(`NFT minted with token ID: ${tokenId}`);
+
+
+
+
     } catch (error) {
       console.error('Error processing PDFs and minting NFT:', error);
       alert('Error processing PDFs and minting NFT');
@@ -168,10 +255,15 @@ const CreateNFT = () => {
             onChange={handleModelChange}
             className="select-input"
           >
-            <option value="">Select a model</option>
-            <option value="Llama 3.1">Llama 3.1</option>
-            <option value="Llama 70b">Llama 70b</option>
-          </select>
+
+            
+
+            {Object.entries(collectionsid).map(([name, id]) => (
+              <option key={id} value={id}>{name}</option>
+            ))}
+
+
+          </select>  
         </div>
 
         <div className="form-group">

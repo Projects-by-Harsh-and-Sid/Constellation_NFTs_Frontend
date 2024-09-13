@@ -5,7 +5,7 @@ import { Image } from 'lucide-react';
 import { mintCollection } from './metagraph_scripts/mint_functions';
 import styles from './styles/nft_collections.module.css';
 
-import { uploadImage } from './image_uploader';
+import { uploadImage } from './helper_functions/image_uploader';
 
 const CreateNFTCollection = () => {
   const navigate = useNavigate();

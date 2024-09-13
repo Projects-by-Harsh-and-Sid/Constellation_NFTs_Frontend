@@ -6,7 +6,7 @@ import defaultImage from './temp.jpg'; // Replace with the actual path to your d
 import axios from 'axios';
 import { useAppContext } from './AppContext';
 
-
+import {get_all_collection_data} from './helper_functions/get_chain_data';
 
 // const nftCollectionsData = [
 //   {
@@ -33,9 +33,7 @@ const NFTCollectionsPage = () => {
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const response = await fetch('http://localhost:9200/data-application/collections', { method: 'GET' });
-        const nftCollectionsData = await response.json();
-        console.log(nftCollectionsData);
+        const nftCollectionsData = await get_all_collection_data();
         setCollections(nftCollectionsData);
       } catch (error) {
         console.error('Error fetching collections:', error);

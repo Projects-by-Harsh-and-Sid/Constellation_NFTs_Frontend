@@ -4,88 +4,94 @@ import { useParams, useNavigate,useLocation } from 'react-router-dom';
 import styles from './styles/nft_page.module.css';
 import defaultImage from './temp.jpg'; // Replace with the actual path to your default image
 import { Dialog, DialogContent, CircularProgress } from '@mui/material'; // Import necessary components
+import {get_all_nft_data} from './helper_functions/get_chain_data';
+import {test_model} from './helper_functions/get_chat_data';
+import { marked } from 'marked'; // Import the marked library
+import DOMPurify from 'dompurify'; // Import DOMPurify for sanitization
+
+
 // import nftData from './nf.json'; // Import the NFT data
 
-const nftData = [
-    {
-        "id": 0,
-        "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
-        "owner": "DAG2d9k5NfZR4zGV2nhYoNEhRc5SKHohHH17c5ki",
-        "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0001.png",
-        "name": "testC - 0000",
-        "description": "testC - 0000 - desc",
-        "creationDateTimestamp": 1726198974789,
-        "metadata": {},
-        "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string",
-        "model": "model1"
-    },
-    {
-        "id": 1,
-        "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
-        "owner": "DAG7Hrt3NbsvvH1yoKbkYAJtjvZCbSgXjMufK3gC",
-        "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0002.png",
-        "name": "testC - 0001",
-        "description": "testC - 0001 - desc",
-        "creationDateTimestamp": 1726198974789,
-        "metadata": {},
-        "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string",
-        "model": "model1"
-    },
-    {
-        "id": 2,
-        "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
-        "owner": "DAG5xqiPUZNRoGC3QNAyxgYsTKcNTV2WsfRWioJD",
-        "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0003.png",
-        "name": "testC - 0002",
-        "description": "testC - 0002 - desc",
-        "creationDateTimestamp": 1726198974789,
-        "metadata": {},
-        "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string",
-        "model": "model1"
-    },
-    {
-        "id": 3,
-        "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
-        "owner": "DAG7ZpyPUPXG4W9hqcYDizaQGeA2s8kZTDtkX2vf",
-        "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0004.png",
-        "name": "testC - 0003",
-        "description": "testC - 0003 - desc",
-        "creationDateTimestamp": 1726198974789,
-        "metadata": {},
-        "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string",
-        "model": "model1"
-    },
-    {
-        "id": 4,
-        "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
-        "owner": "DAG3KnFpyHWGK1sVHPJLJDm2XZVbNJXgDJdtPJUK",
-        "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0005.png",
-        "name": "testC - 0004",
-        "description": "testC - 0004 - desc",
-        "creationDateTimestamp": 1726198974789,
-        "metadata": {},
-        "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string",
-        "model": "model1"
-    },
-    {
-        "id": 4,
-        "collectionId": "9e31623675f582efc863971861fe8d5b073c3efc1d7cce951c0fff9591a409a4",
-        "owner": "DAG3KnFpyHWGK1sVHPJLJDm2XZVbNJXgDJdtPJUK",
-        "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0005.png",
-        "name": "testC - 0004",
-        "description": "testC - 0004 - desc",
-        "creationDateTimestamp": 1726198974789,
-        "metadata": {},
-        "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string",
-        "model": "model1"
-    }
-]
+// const nftData = [
+//     {
+//         "id": 0,
+//         "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
+//         "owner": "DAG2d9k5NfZR4zGV2nhYoNEhRc5SKHohHH17c5ki",
+//         "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0001.png",
+//         "name": "testC - 0000",
+//         "description": "testC - 0000 - desc",
+//         "creationDateTimestamp": 1726198974789,
+//         "metadata": {},
+//         "AI_data": "Cool AI data",
+//         "apiResult": "Sample API response string",
+//         "model": "model1"
+//     },
+//     {
+//         "id": 1,
+//         "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
+//         "owner": "DAG7Hrt3NbsvvH1yoKbkYAJtjvZCbSgXjMufK3gC",
+//         "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0002.png",
+//         "name": "testC - 0001",
+//         "description": "testC - 0001 - desc",
+//         "creationDateTimestamp": 1726198974789,
+//         "metadata": {},
+//         "AI_data": "Cool AI data",
+//         "apiResult": "Sample API response string",
+//         "model": "model1"
+//     },
+//     {
+//         "id": 2,
+//         "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
+//         "owner": "DAG5xqiPUZNRoGC3QNAyxgYsTKcNTV2WsfRWioJD",
+//         "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0003.png",
+//         "name": "testC - 0002",
+//         "description": "testC - 0002 - desc",
+//         "creationDateTimestamp": 1726198974789,
+//         "metadata": {},
+//         "AI_data": "Cool AI data",
+//         "apiResult": "Sample API response string",
+//         "model": "model1"
+//     },
+//     {
+//         "id": 3,
+//         "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
+//         "owner": "DAG7ZpyPUPXG4W9hqcYDizaQGeA2s8kZTDtkX2vf",
+//         "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0004.png",
+//         "name": "testC - 0003",
+//         "description": "testC - 0003 - desc",
+//         "creationDateTimestamp": 1726198974789,
+//         "metadata": {},
+//         "AI_data": "Cool AI data",
+//         "apiResult": "Sample API response string",
+//         "model": "model1"
+//     },
+//     {
+//         "id": 4,
+//         "collectionId": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
+//         "owner": "DAG3KnFpyHWGK1sVHPJLJDm2XZVbNJXgDJdtPJUK",
+//         "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0005.png",
+//         "name": "testC - 0004",
+//         "description": "testC - 0004 - desc",
+//         "creationDateTimestamp": 1726198974789,
+//         "metadata": {},
+//         "AI_data": "Cool AI data",
+//         "apiResult": "Sample API response string",
+//         "model": "model1"
+//     },
+//     {
+//         "id": 4,
+//         "collectionId": "9e31623675f582efc863971861fe8d5b073c3efc1d7cce951c0fff9591a409a4",
+//         "owner": "DAG3KnFpyHWGK1sVHPJLJDm2XZVbNJXgDJdtPJUK",
+//         "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0005.png",
+//         "name": "testC - 0004",
+//         "description": "testC - 0004 - desc",
+//         "creationDateTimestamp": 1726198974789,
+//         "metadata": {},
+//         "AI_data": "Cool AI data",
+//         "apiResult": "Sample API response string",
+//         "model": "model1"
+//     }
+// ]
 const NFTCollectionDetailPage = () => {
   const { collectionId } = useParams();
   const [nfts, setNfts] = useState([]);
@@ -96,14 +102,29 @@ const NFTCollectionDetailPage = () => {
   const [apiEndpoint, setApiEndpoint] = useState('');
   const [isApiLoading, setIsApiLoading] = useState(false);
   const navigate = useNavigate();
+  const [formattedTestApiResult, setFormattedTestApiResult] = useState('');
+
+  const [isTestApiDialogOpen, setIsTestApiDialogOpen] = useState(false);
+  const [testApiResult, setTestApiResult] = useState('');
+  const [isTestApiLoading, setIsTestApiLoading] = useState(false);
 
   const location = useLocation();
   const collectionName = location.state?.name;
 
   useEffect(() => {
-    // In real use, fetch data from an API based on collectionId
-    const filteredNfts = nftData.filter(nft => nft.collectionId === collectionId);
-    setNfts(filteredNfts);
+    const fetchNFTData = async () => {
+      try {
+        if (collectionId) {
+          const fetchedNftData = await get_all_nft_data(collectionId);
+          setNfts(fetchedNftData);
+        }
+      } catch (error) {
+        console.error("Error fetching NFT data:", error);
+        // Handle error appropriately (e.g., set an error state, show a notification)
+      }
+    };
+  
+    fetchNFTData();
   }, [collectionId]);
 
   const handleBackClick = () => {
@@ -139,6 +160,21 @@ const NFTCollectionDetailPage = () => {
       />
     );
   };
+
+  const handleTestApiClick = async () => {
+    setIsTestApiLoading(true);
+    setIsTestApiDialogOpen(true);
+
+      const response = await test_model(collectionId, selectedNft.id);
+      const data = response['output'];
+      const sanitizedHtml = DOMPurify.sanitize(marked(data));
+      const formattedHtml = `<div class="api-response">${sanitizedHtml}</div>`;
+      setFormattedTestApiResult(formattedHtml);
+
+      setTestApiResult(data);
+      setIsTestApiLoading(false);
+    };
+
 
   const openChat = (nftId) => {
     navigate(`/chat/${nftId}`);
@@ -260,6 +296,12 @@ const NFTCollectionDetailPage = () => {
                   >
                     Get API
                   </button>
+                  <button
+                  className={`${styles.dialogButton} ${styles.testApiButton}`}
+                  onClick={handleTestApiClick}
+                >
+                  Test API
+                </button>
                 </div>
             </div>
             <button className={styles['dialog-close']} onClick={closeDialog}>
@@ -313,6 +355,28 @@ const NFTCollectionDetailPage = () => {
               </div>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={isTestApiDialogOpen}
+        onClose={() => setIsTestApiDialogOpen(false)}
+        maxWidth="lg"
+        fullWidth
+        classes={{ paper: styles.testApiDialogPaper }}
+      >
+        <DialogContent className={styles.testApiDialogContent}>
+          <h3 className={styles.testApiDialogTitle}>API Test Result</h3>
+          {isTestApiLoading ? (
+            <div className={styles.testApiLoadingContainer}>
+              <CircularProgress />
+            </div>
+          ) : (
+            <pre className={styles.testApiResultPre} dangerouslySetInnerHTML={{ __html: formattedTestApiResult }}></pre>
+          )}
+            <button className={styles['dialog-close']} onClick={closeDialog}>
+              ×
+            </button>
         </DialogContent>
       </Dialog>
     </div>
