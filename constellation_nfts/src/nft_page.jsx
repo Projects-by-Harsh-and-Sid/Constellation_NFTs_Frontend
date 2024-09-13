@@ -72,6 +72,10 @@ const NFTCollectionDetailPage = () => {
   const [nfts, setNfts] = useState([]);
   const [selectedNft, setSelectedNft] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isApiDialogOpen, setIsApiDialogOpen] = useState(false);
+  const [apiKey, setApiKey] = useState('');
+  const [apiEndpoint, setApiEndpoint] = useState('');
+  const [isApiLoading, setIsApiLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -113,6 +117,10 @@ const NFTCollectionDetailPage = () => {
       />
     );
   };
+
+  const openChat = (nftId) => {
+    navigate(`/chat/${nftId}`);
+  };
   
   const openNftDetails = (nft) => {
     setSelectedNft(nft);
@@ -130,6 +138,19 @@ const NFTCollectionDetailPage = () => {
     }, (err) => {
       console.error('Could not copy text: ', err);
     });
+  };
+
+  const handleApiClick = (id) => {
+    setIsDialogOpen(false);
+    setIsApiDialogOpen(true);
+    setIsApiLoading(true);
+
+    // Simulate an API call delay and use dummy values
+    setTimeout(() => {
+      setApiKey('dummy-api-key-123456');
+      setApiEndpoint('https://api.example.com/endpoint');
+      setIsApiLoading(false);
+    }, 1000); // 1 second delay
   };
 
 
@@ -199,7 +220,20 @@ const NFTCollectionDetailPage = () => {
                   Owner: {selectedNft.owner}
                 </div>
               </div>
-              {/* Add any buttons or actions here */}
+              <div className={styles.buttonContainer}>
+                  <button
+                    className={`${styles.dialogButton} ${styles.chatButton}`}
+                    onClick={() => openChat(selectedNft.id)}
+                  >
+                    Chat
+                  </button>
+                  <button
+                    className={`${styles.dialogButton} ${styles.apiButton}`}
+                    onClick={() => handleApiClick(selectedNft.id)}
+                  >
+                    Get API
+                  </button>
+                </div>
             </div>
             <button className={styles['dialog-close']} onClick={closeDialog}>
               ×
@@ -212,6 +246,48 @@ const NFTCollectionDetailPage = () => {
         )}
       </DialogContent>
     </Dialog>
+{/* API Dialog */}
+    <Dialog
+        open={isApiDialogOpen}
+        onClose={() => setIsApiDialogOpen(false)}
+        maxWidth="md"
+        classes={{ paper: styles.dialogPaper }}
+      >
+        <DialogContent className={styles.apiDialogContent}>
+          {isApiLoading ? (
+            <div className={styles.loadingContainer}>
+              <CircularProgress />
+            </div>
+          ) : (
+            <>
+              <div className={styles.apiItem}>
+                <span className={styles.apiLabel}>API Key:</span>
+                <div className={styles.apiValueContainer}>
+                  <span className={styles.apiValue}>{apiKey}</span>
+                  <button
+                    className={styles.copyButton}
+                    onClick={() => copyToClipboard(apiKey)}
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+              <div className={styles.apiItem}>
+                <span className={styles.apiLabel}>API Endpoint:</span>
+                <div className={styles.apiValueContainer}>
+                  <span className={styles.apiValue}>{apiEndpoint}</span>
+                  <button
+                    className={styles.copyButton}
+                    onClick={() => copyToClipboard(apiEndpoint)}
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
