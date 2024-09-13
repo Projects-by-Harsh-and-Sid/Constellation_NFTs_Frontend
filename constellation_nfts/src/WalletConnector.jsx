@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './styles/stargazer.css';
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from './AppContext';
 
 const CONSTELLATION_NETWORK = {
   name: 'Constellation',
@@ -14,6 +15,7 @@ const StargazerWeb3Connector = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { address, setAddress, provider, setProvider } = useAppContext();
 
   const initializeAndConnect = async () => {
     if (window.stargazer) {
@@ -23,10 +25,12 @@ const StargazerWeb3Connector = () => {
         console.log("Stargazer provider initialized:", provider);
         setStargazerProvider(provider);
         setIsAuthenticated(true);
+        setProvider(provider);
 
         const accounts = await provider.request({ method: "dag_requestAccounts", params: [] });
         if (accounts && accounts.length > 0) {
           setAccount(accounts[0]);
+          setAddress(accounts[0]);
         }
       } catch (error) {
         console.error("Error initializing provider or connecting to wallet:", error);

@@ -4,9 +4,10 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [address, setAddress] = useState(null);
+  const [provider, setProvider] = useState(null);
 
   return (
-    <AppContext.Provider value={{ address }}>
+    <AppContext.Provider value={{ address, setAddress, provider, setProvider }}>
       {children}
     </AppContext.Provider>
   );

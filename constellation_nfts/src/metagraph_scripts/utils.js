@@ -30,16 +30,16 @@ const activateStargazerProviders = async () => {
     };
   };
   
-  const {
-    ethProvider, 
-    dagProvider
-  } = await activateStargazerProviders();
+  // const {
+  //   ethProvider, 
+  //   dagProvider
+  // } = await activateStargazerProviders();
   
-  /**
-   * Each provider gets enabled on the first request
-   */
-  const ethAccounts = await ethProvider.request({method: 'eth_accounts', params: []});
+  // /**
+  //  * Each provider gets enabled on the first request
+  //  */
+  // const ethAccounts = await ethProvider.request({method: 'eth_accounts', params: []});
   
-  const dagAccounts = await dagProvider.request({method: 'dag_accounts', params: []});
+  // const dagAccounts = await dagProvider.request({method: 'dag_accounts', params: []});
   
   export {activateStargazerProviders};

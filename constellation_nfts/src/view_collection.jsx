@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import './styles/Collections_view.module.css'; // Use your existing CSS file
 import defaultImage from './temp.jpg'; // Replace with the actual path to your default image
 import axios from 'axios';
+import { useAppContext } from './AppContext';
+
 
 
 // const nftCollectionsData = [
@@ -23,6 +25,10 @@ import axios from 'axios';
 const NFTCollectionsPage = () => {
   const [collections, setCollections] = useState([]);
   const navigate = useNavigate();
+  const { address, provider } = useAppContext();
+
+  console.log('address:', address);
+  console.log('provider:', provider);
 
   useEffect(() => {
     const fetchCollections = async () => {

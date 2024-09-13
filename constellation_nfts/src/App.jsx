@@ -6,7 +6,7 @@ import ViewCollection from './view_collection';
 import NFTCollectionDetailPage from './nft_page';
 import CreateNFT from './create_nft';
 
-// import { AppProvider } from './AppContext';
+import { AppProvider } from './AppContext';
 import { HashRouter as Router } from 'react-router-dom';
 import Collections from './Collections';
 import StargazerWeb3Connector from './WalletConnector';
@@ -15,7 +15,7 @@ function App() {
   
   return (
     <div className="App">
-      {/* <AppProvider> */}
+      <AppProvider>
         <Router>
           <Routes>
             <Route path="/create_collection" element={<CreateCollection />} />
@@ -30,7 +30,7 @@ function App() {
 
           </Routes>
         </Router>
-      {/* </AppProvider> */}
+      </AppProvider>
     </div>
   );
 }
