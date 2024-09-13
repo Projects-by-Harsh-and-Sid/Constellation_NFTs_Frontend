@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Collections_view.module.css'; // Use your existing CSS file
 import defaultImage from './temp.jpg'; // Replace with the actual path to your default image
-// import nftCollectionsData_json from './collections.json';
+
 
 const nftCollectionsData = [
   {
