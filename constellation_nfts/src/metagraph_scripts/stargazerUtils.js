@@ -56,4 +56,6 @@ async function sendActionMessage(actionMessage, dagProvider, userAddress)
     }
 
 }
+
+export { sendActionMessage};
   
