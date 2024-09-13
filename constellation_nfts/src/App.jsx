@@ -1,7 +1,8 @@
 import React from 'react';
 import {Route, Routes } from 'react-router-dom';
-import CreateNFT from './create_nft';
+import CreateNFT from './create_nft_temp';
 import Chat from './chat';
+
 // import { AppProvider } from './AppContext';
 import { HashRouter as Router } from 'react-router-dom';
 import Collections from './Collections';
