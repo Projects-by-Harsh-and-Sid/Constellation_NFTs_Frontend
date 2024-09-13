@@ -49,7 +49,7 @@ const StargazerWeb3Connector = () => {
     return <div className="error-message">{error}</div>;
   }
 
-  const handleCreate = () => navigate('/create_nft');
+  const handleCreate = () => navigate('/create_collection');
 
   return (
     <div className="app-container">

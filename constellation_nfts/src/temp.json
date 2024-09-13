@@ -1,0 +1,16 @@
+[
+    {
+        "id": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
+        "owner": "DAG6FibrFtySEBh78roMzioUDALeLQSdYLzyrzag",
+        "name": "testC",
+        "creationDateTimestamp": 1726198932656,
+        "numberOfNFTs": 5
+    },
+    {
+        "id": "9e31623675f582efc863971861fe8d5b073c3efc1d7cce951c0fff9591a409a4",
+        "owner": "DAG2vvtGcA2hKjFTPFMNBCqNTqJMbFJCz1Wcu8dq",
+        "name": "My Awesome Collection",
+        "creationDateTimestamp": 1726202370384,
+        "numberOfNFTs": 0
+    }
+]

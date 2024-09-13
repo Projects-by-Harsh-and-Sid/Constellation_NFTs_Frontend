@@ -15,7 +15,7 @@
 
 
 
-  console.log('Sample collection minted successfully');
+//   console.log('Sample collection minted successfully');
 
 
-export { mintSampleCollection };
+// export { mintSampleCollection };
