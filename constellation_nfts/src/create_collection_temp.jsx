@@ -2,8 +2,10 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Alert, Snackbar } from '@mui/material';
 import { Image } from 'lucide-react';
-import { mintNFTData } from './metagraph_scripts/mint_functions';
+import { mintCollection } from './metagraph_scripts/mint_functions';
 import styles from './styles/nft_collections.module.css';
+
+import { uploadImage } from './image_uploader';
 
 const CreateNFTCollection = () => {
   const navigate = useNavigate();
@@ -45,12 +47,11 @@ const CreateNFTCollection = () => {
   
     try {
       const imageData = Array.from(new Uint8Array(await collectionImage.arrayBuffer()));
-      // await mintNFTData({
-      //   name: collectionName,
-      //   description: collectionDescription,
-      //   model: selectedModel,
-      //   image: imageData,
-      // });
+
+      // send a post request to localhost:5500/
+      const result = await uploadImage(imageData);
+
+      await mintCollection(collectionName,collectionDescription,selectedModel,result.url);
       setMintResult('NFT Collection minted successfully!');
     } catch (error) {
       console.error('Error minting NFT Collection:', error);
