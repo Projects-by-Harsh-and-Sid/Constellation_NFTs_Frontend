@@ -16,7 +16,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 1,
@@ -28,7 +29,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 2,
@@ -40,7 +42,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 3,
@@ -52,7 +55,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 4,
@@ -64,7 +68,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     },
     {
         "id": 4,
@@ -76,7 +81,8 @@ const nftData = [
         "creationDateTimestamp": 1726198974789,
         "metadata": {},
         "AI_data": "Cool AI data",
-        "apiResult": "Sample API response string"
+        "apiResult": "Sample API response string",
+        "model": "model1"
     }
 ]
 const NFTCollectionDetailPage = () => {
@@ -227,7 +233,7 @@ const NFTCollectionDetailPage = () => {
                   className={`${styles['tag']} ${styles['model-tag']}`} 
                   title={selectedNft.AI_data || 'Unknown AI data'}
                 >
-                  AI Data: {selectedNft.AI_data || 'Unknown AI data'}
+                  Model: {selectedNft.model || 'Unknown AI data'}
                 </div>
                 <div
                   className={`${styles['tag']} ${styles['owner-tag']}`}

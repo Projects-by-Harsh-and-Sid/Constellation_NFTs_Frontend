@@ -134,7 +134,7 @@ const CreateNFTCollection = () => {
         </div>
 
         <div className={styles['form-group']}>
-          <label className={styles['select-label']}>Select Model</label>
+          <label className={styles['select-label']}> Select Base Model</label>
           <select 
             value={selectedModel} 
             onChange={handleModelChange}
@@ -145,6 +145,15 @@ const CreateNFTCollection = () => {
             <option value="Llama 70b">Llama 70b</option>
           </select>
         </div>
+
+        <div className="form-group">
+          <label className="upload-label">Input fine tune data for custom model</label>
+          <div className="pdf-upload-area">
+            <p>Coming Soon..</p>
+
+          </div>
+          </div>
+        
 
         <div className={styles['button-group']}>
           <button 
