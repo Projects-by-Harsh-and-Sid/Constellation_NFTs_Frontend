@@ -65,6 +65,18 @@ const nftData = [
         "metadata": {},
         "AI_data": "Cool AI data",
         "apiResult": "Sample API response string"
+    },
+    {
+        "id": 4,
+        "collectionId": "9e31623675f582efc863971861fe8d5b073c3efc1d7cce951c0fff9591a409a4",
+        "owner": "DAG3KnFpyHWGK1sVHPJLJDm2XZVbNJXgDJdtPJUK",
+        "uri": "https://constellation-nfts-assets.s3.amazonaws.com/dtm/0005.png",
+        "name": "testC - 0004",
+        "description": "testC - 0004 - desc",
+        "creationDateTimestamp": 1726198974789,
+        "metadata": {},
+        "AI_data": "Cool AI data",
+        "apiResult": "Sample API response string"
     }
 ]
 const NFTCollectionDetailPage = () => {
@@ -153,6 +165,11 @@ const NFTCollectionDetailPage = () => {
     }, 1000); // 1 second delay
   };
 
+  const truncateAddress = (address) => {
+    if (typeof address !== 'string') return 'Invalid Address';
+    if (address.length <= 13) return address;
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
 
   return (
     <div className={styles['nft-page']}>
@@ -217,7 +234,7 @@ const NFTCollectionDetailPage = () => {
                   title={selectedNft.owner}
                   onClick={() => copyToClipboard(selectedNft.owner)}
                 >
-                  Owner: {selectedNft.owner}
+                  Owner: {truncateAddress(selectedNft.owner)}
                 </div>
               </div>
               <div className={styles.buttonContainer}>

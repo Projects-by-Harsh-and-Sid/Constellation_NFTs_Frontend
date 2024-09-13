@@ -13,6 +13,7 @@ const StargazerWeb3Connector = () => {
   const [error, setError] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const initializeAndConnect = async () => {
     if (window.stargazer) {
@@ -21,6 +22,7 @@ const StargazerWeb3Connector = () => {
         const provider = window.stargazer.getProvider("constellation");
         console.log("Stargazer provider initialized:", provider);
         setStargazerProvider(provider);
+        setIsAuthenticated(true);
 
         const accounts = await provider.request({ method: "dag_requestAccounts", params: [] });
         if (accounts && accounts.length > 0) {
@@ -50,11 +52,15 @@ const StargazerWeb3Connector = () => {
   }
 
   const handleCreate = () => navigate('/create_collection');
+  const handleCollection = () => navigate('/view_collection');
+
+  // const isAuthenticated = account && stargazerProvider;
+
 
   return (
     <div className="app-container">
       <header className="header">
-        <h1>Stargazer Web3 Connector</h1>
+        <h1>NeuraNFT</h1>
         <div className="dropdown">
           {account ? (
             <div>
@@ -67,7 +73,9 @@ const StargazerWeb3Connector = () => {
                   <button onClick={handleCreate} className="disconnect-button">
                     Create
                   </button>
-                  <a href="#" className="dropdown-item">Collections</a>
+                  <button onClick={handleCollection} className="disconnect-button">
+                    Collection
+                  </button>
                   <button onClick={disconnectWallet} className="disconnect-button">
                     Disconnect
                   </button>
@@ -81,6 +89,27 @@ const StargazerWeb3Connector = () => {
           )}
         </div>
       </header>
+      <div className="main-content">
+      <h1>
+          <span className="animated-word-container">
+            <span className="animated-text">Own</span>
+          </span>
+          {" your AI. A decentralized Future"}
+        </h1>
+        <p>Revolutionizing AI ownership through decentralized technology</p>
+        <div className="button-container">
+          {isAuthenticated ? (
+            <button className="button primary" onClick={handleCreate}>
+              Get Started
+            </button>
+          ) : (
+            <button className="button primary" onClick={initializeAndConnect}>
+              Login to Constellation Network
+            </button>
+          )}
+          <button className="button secondary">Lite Paper</button>
+        </div>
+      </div>
     </div>
   );
 };
