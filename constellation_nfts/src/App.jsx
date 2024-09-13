@@ -19,12 +19,14 @@ function App() {
         <Router>
           <Routes>
             <Route path="/create_collection" element={<CreateCollection />} />
-            <Route path="/chat/:nftId" element={<Chat />} />
+            <Route path="/chat/:collectionId" element={<Chat />} />
             {/* <Route path="/collections" element={<Collections />} /> */}
             <Route path="/" element={< StargazerWeb3Connector/>} />
             <Route path="/view_collection" element={< ViewCollection/>} />
             <Route path="/collections/:collectionId" element={<NFTCollectionDetailPage />} />
             <Route path="/create_nft/:collectionId" element={<CreateNFT />} />
+            {/* <Route path="/create_nft/:collectionId" element={<CreateNFT />} /> */}
+
 
           </Routes>
         </Router>

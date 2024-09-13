@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Collections_view.module.css'; // Use your existing CSS file
 import defaultImage from './temp.jpg'; // Replace with the actual path to your default image
+// import nftCollectionsData_json from './collections.json';
 
 const nftCollectionsData = [
   {
@@ -34,10 +35,9 @@ const NFTCollectionsPage = () => {
     navigate('/create_collection'); // Adjust the path as needed
   };
 
-  const handleCollectionClick = (collectionId) => {
-    navigate(`/collections/${collectionId}`);
+  const handleCollectionClick = (collectionId, collectionName) => {
+    navigate(`/collections/${collectionId}`, { state: { name: collectionName } });
   };
-
   
 
   return (
@@ -64,7 +64,7 @@ const NFTCollectionsPage = () => {
             <div
               key={index}
               className="nft-card"
-              onClick={() => handleCollectionClick(collection.id)}
+              onClick={() => handleCollectionClick(collection.id, collection.name)}
             >
               <img
                 src={defaultImage}
