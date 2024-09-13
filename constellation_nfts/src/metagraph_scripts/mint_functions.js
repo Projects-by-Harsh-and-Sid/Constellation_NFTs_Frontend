@@ -31,12 +31,12 @@ async function mintNFTData(collectionId, nftData) {
       MintNFT: {
         owner: userAddress,
         collectionId,
-        nftId: nftData.id,
-        uri: nftData.uri,
-        name: nftData.name,
-        description: nftData.description,
-        metadata: nftData.metadata || {},
-        AI_data: nftData.AI_data || ''
+        nftId   : nftData.id,
+        uri     : nftData.uri,
+        name    : nftData.name,
+        description : nftData.description,
+        metadata    : nftData.metadata || {},
+        AI_data     : nftData.AI_data || ''
       }
     };
   
@@ -55,7 +55,7 @@ async function mintNFTData(collectionId, nftData) {
 
 
 
-async function mintCollection(collectionName) {
+async function mintCollection(collectionName, description, based_model, uri) {
 
 
     const { dagProvider }   = await activateStargazerProviders();
@@ -65,7 +65,11 @@ async function mintCollection(collectionName) {
     console.log("account:",userAddress);
   
     // Mint collection
-    const mintCollectionAction  = { MintCollection: { name: collectionName } };
+    const mintCollectionAction  = { MintCollection: { name: collectionName 
+                                                    , description: description 
+                                                    , baseModel: based_model
+                                                    , uri: uri
+                                                    }};
     console.log("metagraph_scripts",mintCollectionAction);
   
     const collectionResponse    = await sendActionMessage(mintCollectionAction, dagProvider, userAddress);

@@ -68,3 +68,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+yarn script .\scripts\mint-collection.ts --account-pk 997a0e642d4c190a65e8ae968c2319d1aedeec163b0aa4be198928fcc57340f2 --collection-name "Llama 3.1B"  --description "This is a unique collection."  --base-model "llama3" \
