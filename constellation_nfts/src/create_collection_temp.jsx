@@ -15,6 +15,7 @@ const CreateNFTCollection = () => {
   const [collectionImagePreview, setCollectionImagePreview] = useState(null);
   const [collectionImage, setCollectionImage] = useState(null);
   const [isMinting, setIsMinting] = useState(false);
+  const [minted, setMinted] = useState(false);
   const [mintResult, setMintResult] = useState('');
   const imageInputRef = useRef(null);
 
@@ -53,6 +54,10 @@ const CreateNFTCollection = () => {
 
       await mintCollection(collectionName,collectionDescription,selectedModel,result.url);
       setMintResult('NFT Collection minted successfully!');
+      setMinted(true);
+      setTimeout(() => {
+        navigate('/view_collection');
+      }, 2000);
     } catch (error) {
       console.error('Error minting NFT Collection:', error);
       setMintResult(`Error: ${error.message}`);

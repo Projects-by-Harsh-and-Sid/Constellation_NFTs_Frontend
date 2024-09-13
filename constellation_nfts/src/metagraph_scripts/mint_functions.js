@@ -48,7 +48,7 @@ async function mintNFTData(collectionId, nftData) {
     console.log("collectionId",NFTid);
   
     console.log('Waiting for collection to populate over the cluster');
-    await new Promise(resolve => setTimeout(resolve, 30000));
+    await new Promise(resolve => setTimeout(resolve, 6000));
 
 
   }
@@ -74,12 +74,14 @@ async function mintCollection(collectionName, description, based_model, uri) {
   
     const collectionResponse    = await sendActionMessage(mintCollectionAction, dagProvider, userAddress);
     console.log("collectionResponse",collectionResponse);
-  
+
+
+
     const collectionId          = collectionResponse.data.hash;
     console.log("collectionId",collectionId);
   
     console.log('Waiting for collection to populate over the cluster');
-    await new Promise(resolve => setTimeout(resolve, 30000));
+    await new Promise(resolve => setTimeout(resolve, 6000));
   
 
     }

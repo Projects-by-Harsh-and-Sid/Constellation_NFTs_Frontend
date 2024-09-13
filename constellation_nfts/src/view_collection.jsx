@@ -3,32 +3,40 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Collections_view.module.css'; // Use your existing CSS file
 import defaultImage from './temp.jpg'; // Replace with the actual path to your default image
+import axios from 'axios';
 
 
-const nftCollectionsData = [
-  {
-    "id": "31143e3c62db821008bc93651da248e55bce4a923d21cd1bcedf14fea0b738e4",
-    "owner": "DAG6FibrFtySEBh78roMzioUDALeLQSdYLzyrzag",
-    "name": "testC",
-    "creationDateTimestamp": 1726198932656,
-    "numberOfNFTs": 5
-  },
-  {
-    "id": "9e31623675f582efc863971861fe8d5b073c3efc1d7cce951c0fff9591a409a4",
-    "owner": "DAG2vvtGcA2hKjFTPFMNBCqNTqJMbFJCz1Wcu8dq",
-    "name": "My Awesome Collection",
-    "creationDateTimestamp": 1726202370384,
-    "numberOfNFTs": 0
-  }
-];
+// const nftCollectionsData = [
+//   {
+//     "id": "9c3803e52f35edb49e2238fb18b8cb22a9b84c31502e45b1099571cf1c8766a4",
+//     "owner": "DAG2vvtGcA2hKjFTPFMNBCqNTqJMbFJCz1Wcu8dq",
+//     "name": "Harsh Personality",
+//     "creationDateTimestamp": 1726248610396,
+//     "numberOfNFTs": 0,
+//     "description": "This collection is to create social personas",
+//     "baseModel": "Llama 3.1",
+//     "uri": "http://localhost:5500/image/5DohZkAtiu.jpg"
+// }
+// ]
+// ];
 
 const NFTCollectionsPage = () => {
   const [collections, setCollections] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // In real use, fetch data from an API
-    setCollections(nftCollectionsData);
+    const fetchCollections = async () => {
+      try {
+        const response = await fetch('http://localhost:9200/data-application/collections', { method: 'GET' });
+        const nftCollectionsData = await response.json();
+        console.log(nftCollectionsData);
+        setCollections(nftCollectionsData);
+      } catch (error) {
+        console.error('Error fetching collections:', error);
+      }
+    };
+
+    fetchCollections();
   }, []);
 
   const handleCreateCollection = () => {
@@ -67,7 +75,7 @@ const NFTCollectionsPage = () => {
               onClick={() => handleCollectionClick(collection.id, collection.name)}
             >
               <img
-                src={defaultImage}
+                src={collection.uri}
                 alt={collection.name || `Collection ${index + 1}`}
                 className="nft-image"
               />
