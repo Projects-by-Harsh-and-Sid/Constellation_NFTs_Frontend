@@ -5,7 +5,7 @@ import styles from './styles/nft_page.module.css';
 import defaultImage from './temp.jpg'; // Replace with the actual path to your default image
 import { Dialog, DialogContent, CircularProgress } from '@mui/material'; // Import necessary components
 import {get_all_nft_data} from './helper_functions/get_chain_data';
-import {test_model} from './helper_functions/get_chat_data';
+import {test_model, get_api_key} from './helper_functions/get_chat_data';
 import { marked } from 'marked'; // Import the marked library
 import DOMPurify from 'dompurify'; // Import DOMPurify for sanitization
 
@@ -177,7 +177,7 @@ const NFTCollectionDetailPage = () => {
 
 
   const openChat = (nftId) => {
-    navigate(`/chat/${nftId}`);
+    navigate(`/chat/${collectionId}/${nftId}`);
   };
   
   const openNftDetails = (nft) => {
@@ -198,17 +198,41 @@ const NFTCollectionDetailPage = () => {
     });
   };
 
-  const handleApiClick = (id) => {
+  const handleApiClick = async () => {
+
+    
     setIsDialogOpen(false);
     setIsApiDialogOpen(true);
     setIsApiLoading(true);
+    
+    const collection_id = collectionId;
+    const nft_id = selectedNft.id;
+    
+    console.log("collection_id",collection_id);
+    console.log("nft_id",nft_id);
+
+      const api_key = await get_api_key(collection_id, nft_id);
+
+    console.log("api_key",api_key);
+    
+    const url = api_key['hpcEndpoint']+":"+api_key['hpcEndpointPort'];
+
+    const apiKey = api_key['apiKey'];
+
+    // setIsDialogOpen(false);
+    // setIsApiDialogOpen(true);
+    // setIsApiLoading(true);
+
+
+
+
 
     // Simulate an API call delay and use dummy values
     setTimeout(() => {
-      setApiKey('dummy-api-key-123456');
-      setApiEndpoint('https://api.example.com/endpoint');
+      setApiKey(apiKey);
+      setApiEndpoint(url);
       setIsApiLoading(false);
-    }, 1000); // 1 second delay
+    }, 500); // 1 second delay
   };
 
   const truncateAddress = (address) => {

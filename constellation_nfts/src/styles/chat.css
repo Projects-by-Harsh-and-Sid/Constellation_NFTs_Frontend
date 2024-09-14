@@ -157,13 +157,21 @@
   align-self: flex-end;
   background-color: #007bff;
   color: white;
+  min-width: 100px;
+  /* align-items: right; */
 }
 
 .bot-message {
   align-self: flex-start;
-  background-color: #f0f0f0;
-  color: black;
+  background-color: #202324;
+  color: white;
 }
+
+
+
+/* .message bot-message{
+  color: black !important;
+} */
 
 .chat-input-container {
   display: flex;
@@ -330,3 +338,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 } */
+
+.bot-para{
+  color: white;
+}

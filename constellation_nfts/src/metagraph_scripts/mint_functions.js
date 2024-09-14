@@ -39,6 +39,14 @@ async function mintNFTData(collectionId, nftData) {
     //   AI_data              : String,
     // ) extends NFTUpdate
 
+    
+    // remove non latin1 words
+
+    const nonLatin1LetterRegx = /[^\x00-\xFF]/g;
+
+    const AI_data = nftData.AI_data.replace(nonLatin1LetterRegx, " ").replace("|"," ").replace("`"," ");
+
+
     const actionMessage = {
       MintNFT: {
         owner: userAddress,
@@ -48,7 +56,7 @@ async function mintNFTData(collectionId, nftData) {
         name    : nftData.name,
         description : nftData.description,
         metadata    : nftData.metadata || {},
-        AI_data     : nftData.AI_data || ''
+        AI_data     : AI_data || ''
       }
     };
   

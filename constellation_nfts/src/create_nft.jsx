@@ -1,5 +1,5 @@
 // CreateNFT.js
-import { Image, Paperclip, Upload, X } from 'lucide-react';
+import { Image, Paperclip, Brain, X } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { useAppContext } from './AppContext';
@@ -27,7 +27,7 @@ const CreateNFT = () => {
   const [nftCreated, setNftCreated] = useState(false);
   const [collectionsid, setCollectionsId] = useState({});
   console.log('Inside CreateNFT.jsx');
-
+  const [isUploading, setIsUploading] = useState(false);
   const { address, provider } = useAppContext();
 
   console.log('address:', address);
@@ -107,6 +107,8 @@ const CreateNFT = () => {
       return;
     }
 
+    setIsUploading(true);
+
     try {
 
       const textResults = await Promise.all(pdfFiles.map(file => convertPdfToText(file)));
@@ -153,10 +155,11 @@ const CreateNFT = () => {
       await mintNFTData(selectedModel, mint_nft_data);
 
       setNftCreated(true);
+      setIsUploading(false);
 
       setTimeout(() => {
 
-        navigate(`/collection/${selectedModel}`);
+        navigate(`/collections/${selectedModel}`);
 
       }, 3000);
 
@@ -199,7 +202,7 @@ const CreateNFT = () => {
         Back to Main
       </button>
 
-      <div className="create-nft-form">
+      <div className={`create-nft-form ${isUploading ? 'uploading' : ''}`}>
         <div className="form-group">
           <label>NFT Image</label>
           <div className="nft-image-preview">
@@ -251,19 +254,16 @@ const CreateNFT = () => {
         <div className="form-group">
           <label className='select-label'>Select Custom Model</label>
           <select 
-            value={selectedModel} 
-            onChange={handleModelChange}
-            className="select-input"
-          >
-
-            
-
-            {Object.entries(collectionsid).map(([name, id]) => (
-              <option key={id} value={id}>{name}</option>
-            ))}
-
-
-          </select>  
+          value={selectedModel} 
+          onChange={handleModelChange}
+          className="select-input"
+        >
+          <option value="" disabled selected>Select a model</option>
+          
+          {Object.entries(collectionsid).map(([name, id]) => (
+            <option key={id} value={id}>{name}</option>
+  ))}
+</select> 
         </div>
 
         <div className="form-group">
@@ -304,7 +304,7 @@ const CreateNFT = () => {
               onClick={uploadNFT}
               className="upload-button"
             >
-              <Upload size={20} /> Upload
+              <Brain size={20} /> {isUploading ? 'Tokenizing...' : 'Tokenize Knowledge'}
             </button>
           </div>
         </div>
